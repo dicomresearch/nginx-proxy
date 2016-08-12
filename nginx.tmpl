@@ -76,7 +76,7 @@ server {
 {{ end }}
 
 {{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
-{{ $location := or Env.LOCATION /}}
+{{ $location := or ($.Env.DEFAULT_HOST) /}}
 
 upstream {{ $host }} {
 {{ range $container := $containers }}
