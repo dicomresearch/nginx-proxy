@@ -186,6 +186,14 @@ $ docker run -d -p 80:80 -p 443:443 \
 
 You'll need apache2-utils on the machine where you plan to create the htpasswd file. Follow these [instructions](http://httpd.apache.org/docs/2.2/programs/htpasswd.html)
 
+### location supporting (VIRTUAL_PATH)
+
+To set the virtual path for your app use the env var `VIRTUAL_PATH=foo` for example
+
+    $ docker run -e VIRTUAL_HOST=bar.com -e VIRTUAL_PATH=app1 ...
+    
+your application will be available by URL http://bar.com/app1 
+
 ### Custom Nginx Configuration
 
 If you need to configure Nginx beyond what is possible using environment variables, you can provide custom configuration files on either a proxy-wide or per-`VIRTUAL_HOST` basis.
