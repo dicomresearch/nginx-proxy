@@ -75,8 +75,8 @@ server {
 }
 {{ end }}
 
+{{ $virtual_path := or ($.Env.VIRTUAL_PATH) "" }}
 {{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
-{{ $location := or ($.Env.DEFAULT_HOST) "/"}}
 
 upstream {{ $host }} {
 {{ range $container := $containers }}
@@ -167,7 +167,7 @@ server {
 	include /etc/nginx/vhost.d/default;
 	{{ end }}
 
-	location {{ $location }} {
+	location /{{ $virtual_path }} {
 		proxy_pass {{ trim $proto }}://{{ trim $host }};
 		{{ if (exists (printf "/etc/nginx/htpasswd/%s" $host)) }}
 		auth_basic	"Restricted {{ $host }}";
@@ -196,7 +196,7 @@ server {
 	include /etc/nginx/vhost.d/default;
 	{{ end }}
 
-	location {{ $location }} {
+	location /{{ $virtual_path }} {
 		proxy_pass {{ trim $proto }}://{{ trim $host }};
 		{{ if (exists (printf "/etc/nginx/htpasswd/%s" $host)) }}
 		auth_basic	"Restricted {{ $host }}";
